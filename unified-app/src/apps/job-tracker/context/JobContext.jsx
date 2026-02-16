@@ -1,44 +1,25 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { Job, UserPreferences, JobStatus } from '../types';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { MockDataService } from '../services/MockDataService';
 import { ScoringService } from '../services/ScoringService';
 
-interface JobContextType {
-    jobs: Job[];
-    isLoading: boolean;
-    loadJobs: () => Promise<void>;
-    savedJobs: Job[];
-    saveJob: (job: Job) => void; // Changed to accept full Job object
-    removeJob: (jobId: string) => void;
-    isSaved: (jobId: string) => boolean;
-    preferences: UserPreferences;
-    updatePreferences: (prefs: Partial<UserPreferences>) => void;
-    jobStatus: Record<string, JobStatus>;
-    updateJobStatus: (jobId: string, status: JobStatus) => void;
-    statusHistory: any[];
-    testResults: Record<string, boolean>;
-    updateTestResult: (id: string, value: boolean) => void;
-    resetTestResults: () => void;
-    allTestsPassed: boolean;
-    submissionLinks: { lovable: string; github: string; deployed: string };
-    updateSubmissionLink: (key: 'lovable' | 'github' | 'deployed', value: string) => void;
-}
+const JobContext = createContext(undefined);
 
-const JobContext = createContext<JobContextType | undefined>(undefined);
-
-export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const JobProvider = ({ children }) => {
     // Jobs State
-    const [jobs, setJobs] = useState<Job[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [jobs, setJobs] = useState(() => {
+        const saved = localStorage.getItem('jobTrackerJobs');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [isLoading, setIsLoading] = useState(false);
 
     // Saved Jobs State
-    const [savedJobs, setSavedJobs] = useState<Job[]>(() => {
+    const [savedJobs, setSavedJobs] = useState(() => {
         const saved = localStorage.getItem('jobTrackerSavedJobs');
         return saved ? JSON.parse(saved) : [];
     });
 
     // Preferences State
-    const [preferences, setPreferences] = useState<UserPreferences>(() => {
+    const [preferences, setPreferences] = useState(() => {
         const savedPrefs = localStorage.getItem('jobTrackerPreferences');
         return savedPrefs ? JSON.parse(savedPrefs) : {
             roleKeywords: [],
@@ -51,18 +32,22 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
 
     // Status State
-    const [jobStatus, setJobStatus] = useState<Record<string, JobStatus>>(() => {
+    const [jobStatus, setJobStatus] = useState(() => {
         const saved = localStorage.getItem('jobTrackerStatus');
         return saved ? JSON.parse(saved) : {};
     });
 
     // Status History
-    const [statusHistory, setStatusHistory] = useState<any[]>(() => {
+    const [statusHistory, setStatusHistory] = useState(() => {
         const saved = localStorage.getItem('jobTrackerStatusHistory');
         return saved ? JSON.parse(saved) : [];
     });
 
     // Persist Effects
+    useEffect(() => {
+        localStorage.setItem('jobTrackerJobs', JSON.stringify(jobs));
+    }, [jobs]);
+
     useEffect(() => {
         localStorage.setItem('jobTrackerSavedJobs', JSON.stringify(savedJobs));
     }, [savedJobs]);
@@ -97,22 +82,22 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         }
     };
 
-    const saveJob = (job: Job) => {
+    const saveJob = (job) => {
         setSavedJobs(prev => {
             if (prev.some(j => j.id === job.id)) return prev;
             return [...prev, job];
         });
     };
 
-    const removeJob = (jobId: string) => {
+    const removeJob = (jobId) => {
         setSavedJobs(prev => prev.filter(job => job.id !== jobId));
     };
 
-    const isSaved = (jobId: string) => {
+    const isSaved = (jobId) => {
         return savedJobs.some(job => job.id === jobId);
     };
 
-    const updatePreferences = (newPrefs: Partial<UserPreferences>) => {
+    const updatePreferences = (newPrefs) => {
         setPreferences(prev => {
             const updated = { ...prev, ...newPrefs };
             setJobs(currentJobs => currentJobs.map(job => ({
@@ -123,7 +108,7 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         });
     };
 
-    const updateJobStatus = (jobId: string, status: JobStatus) => {
+    const updateJobStatus = (jobId, status) => {
         // Update Status Map
         setJobStatus(prev => ({
             ...prev,
@@ -154,7 +139,7 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         }
     };
 
-    const [testResults, setTestResults] = useState<Record<string, boolean>>(() => {
+    const [testResults, setTestResults] = useState(() => {
         const saved = localStorage.getItem('jobTrackerTestResults');
         return saved ? JSON.parse(saved) : {};
     });
@@ -163,7 +148,7 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         localStorage.setItem('jobTrackerTestResults', JSON.stringify(testResults));
     }, [testResults]);
 
-    const updateTestResult = (id: string, value: boolean) => {
+    const updateTestResult = (id, value) => {
         setTestResults(prev => ({ ...prev, [id]: value }));
     };
 
@@ -182,8 +167,8 @@ export const JobProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         localStorage.setItem('jobTrackerSubmission', JSON.stringify(submissionLinks));
     }, [submissionLinks]);
 
-    const updateSubmissionLink = (key: 'lovable' | 'github' | 'deployed', value: string) => {
-        setSubmissionLinks((prev: { lovable: string; github: string; deployed: string }) => ({ ...prev, [key]: value }));
+    const updateSubmissionLink = (key, value) => {
+        setSubmissionLinks(prev => ({ ...prev, [key]: value }));
     };
 
     return (

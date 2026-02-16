@@ -3,12 +3,11 @@ import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { useJobs } from '../context/JobContext';
 import { DigestService } from '../services/DigestService';
-import type { Job } from '../types';
 
-const Digest: React.FC = () => {
+const Digest = () => {
     const { jobs, preferences, loadJobs, statusHistory } = useJobs();
-    const [digest, setDigest] = useState<Job[] | null>(null);
-    const [generatedDate, setGeneratedDate] = useState<string>('');
+    const [digest, setDigest] = useState(null);
+    const [generatedDate, setGeneratedDate] = useState('');
 
     useEffect(() => {
         // Load existing digest for today
@@ -23,31 +22,9 @@ const Digest: React.FC = () => {
         if (jobs.length === 0) {
             await loadJobs(); // Ensure we have jobs to pick from
         }
-        // Use current jobs (which might have been loaded or already exist)
-        // We need to wait for loadJobs to update state? 
-        // Logic: if jobs.length is 0, loadJobs triggers state update. 
-        // But here we need the updated jobs. 
-        // Simplification: We rely on valid jobs being present or loaded. 
-        // Better: trigger load, then in useEffect if digest is missing and jobs exist, maybe auto-gen? 
-        // Requirement: "When clicked: Select top 10".
 
-        // Let's assume jobs are loaded or we wait slightly? 
-        // For now, if jobs are empty, we trigger load. 
-        // If they are loaded, we generate immediately.
-
-        // If jobs are still 0 after load (unlikely with mock), we can't gen.
-        // Let's grab the latest list from context. 
-        // NOTE: loadJobs is async but state update is async.
-        // We might need to listen to jobs change? 
-        // Or just prompt user "Load data first"? 
-        // Actually, dashboard loads data. Digest might be empty.
-
-        // Let's try:
         let pool = jobs;
         if (pool.length === 0) {
-            // Force valid data for demo
-            // This might be tricky without a promise returning the data directly.
-            // MockDataService returns a promise, but useJobs wrap it.
             alert("Please go to Dashboard and load the dataset first to generate a digest.");
             return;
         }

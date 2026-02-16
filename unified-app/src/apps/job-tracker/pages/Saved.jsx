@@ -3,14 +3,13 @@ import { Card } from '../components/Card';
 import { useJobs } from '../context/JobContext';
 import { JobCard } from '../components/JobCard';
 import { JobDetailModal } from '../components/JobDetailModal';
-import type { Job } from '../types';
 
-const Saved: React.FC = () => {
+const Saved = () => {
     const { savedJobs, saveJob } = useJobs();
-    const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+    const [selectedJob, setSelectedJob] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleViewJob = (job: Job) => {
+    const handleViewJob = (job) => {
         setSelectedJob(job);
         setIsModalOpen(true);
     };

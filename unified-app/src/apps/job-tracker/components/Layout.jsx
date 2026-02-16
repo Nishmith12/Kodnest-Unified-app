@@ -2,13 +2,7 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useJobs } from '../context/JobContext';
 
-interface LayoutProps {
-    children: React.ReactNode;
-    title?: string;
-    subtitle?: string;
-}
-
-export const Layout: React.FC<LayoutProps> = ({
+export const Layout = ({
     children,
     title,
 }) => {
@@ -174,3 +168,5 @@ export const Layout: React.FC<LayoutProps> = ({
         </div>
     );
 };
+
+Layout.displayName = 'Layout';

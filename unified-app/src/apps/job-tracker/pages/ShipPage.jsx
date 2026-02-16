@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import { useJobs } from '../context/JobContext';
 import { useNavigate } from 'react-router-dom';
 
-const ShipPage: React.FC = () => {
+const ShipPage = () => {
     const { allTestsPassed } = useJobs();
     const navigate = useNavigate();
 

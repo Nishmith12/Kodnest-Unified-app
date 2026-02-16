@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 
-const NotFound: React.FC = () => {
+const NotFound = () => {
     return (
         <div className="flex flex-col items-center justify-center py-20 text-center">
             <h1 className="text-6xl font-serif font-bold text-[var(--accent-primary)] mb-4">404</h1>

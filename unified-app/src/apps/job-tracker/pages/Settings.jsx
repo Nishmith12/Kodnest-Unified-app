@@ -4,30 +4,29 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { useNavigate } from 'react-router-dom';
 import { useJobs } from '../context/JobContext';
-import type { UserPreferences } from '../types';
 
-const Settings: React.FC = () => {
+const Settings = () => {
     const { preferences, updatePreferences } = useJobs();
     const navigate = useNavigate();
 
     // Local state for form handling
-    const [formData, setFormData] = useState<UserPreferences>(preferences);
+    const [formData, setFormData] = useState(preferences);
 
     // Update local state when context changes (initial load)
     useEffect(() => {
         setFormData(preferences);
     }, [preferences]);
 
-    const handleChange = (field: keyof UserPreferences, value: any) => {
+    const handleChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleArrayChange = (field: 'roleKeywords' | 'locations' | 'skills', value: string) => {
+    const handleArrayChange = (field, value) => {
         const array = value.split(',').map(item => item.trim()).filter(item => item);
         handleChange(field, array);
     };
 
-    const handleWorkModeToggle = (mode: string) => {
+    const handleWorkModeToggle = (mode) => {
         setFormData(prev => {
             const currentModes = prev.workMode || [];
             if (currentModes.includes(mode)) {

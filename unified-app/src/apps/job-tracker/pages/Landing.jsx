@@ -3,7 +3,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Link } from 'react-router-dom';
 
-const Landing: React.FC = () => {
+const Landing = () => {
     return (
         <div className="relative overflow-hidden min-h-[85vh] flex flex-col justify-center">
             {/* Background Orbs */}

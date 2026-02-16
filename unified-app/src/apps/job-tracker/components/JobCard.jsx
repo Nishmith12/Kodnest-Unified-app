@@ -1,18 +1,11 @@
 import React from 'react';
-import type { Job, JobStatus } from '../types';
 import { useJobs } from '../context/JobContext';
 
-interface JobCardProps {
-    job: Job;
-    onView?: (job: Job) => void;
-    onClick?: () => void;
-}
-
-export const JobCard: React.FC<JobCardProps> = ({ job, onView, onClick }) => {
+export const JobCard = ({ job, onView, onClick }) => {
     const { saveJob, removeJob, isSaved, updateJobStatus } = useJobs();
     const saved = isSaved(job.id);
 
-    const getStatusStyles = (status?: JobStatus) => {
+    const getStatusStyles = (status) => {
         switch (status) {
             case 'Applied': return 'bg-blue-50 text-blue-700 border-blue-100 ring-blue-500/10';
             case 'Rejected': return 'bg-red-50 text-red-700 border-red-100 ring-red-500/10';
@@ -22,13 +15,13 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onView, onClick }) => {
         }
     };
 
-    const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleStatusChange = (e) => {
         e.stopPropagation();
-        const newStatus = e.target.value as JobStatus;
+        const newStatus = e.target.value;
         updateJobStatus(job.id, newStatus);
     };
 
-    const handleSave = (e: React.MouseEvent) => {
+    const handleSave = (e) => {
         e.stopPropagation();
         if (saved) {
             removeJob(job.id);
@@ -43,7 +36,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onView, onClick }) => {
     };
 
     // Generate a consistent gradient based on company name length
-    const getCompanyGradient = (name: string) => {
+    const getCompanyGradient = (name) => {
         const gradients = [
             'from-blue-500 to-indigo-600',
             'from-emerald-400 to-teal-600',
@@ -134,3 +127,5 @@ export const JobCard: React.FC<JobCardProps> = ({ job, onView, onClick }) => {
         </div>
     );
 };
+
+JobCard.displayName = 'JobCard';

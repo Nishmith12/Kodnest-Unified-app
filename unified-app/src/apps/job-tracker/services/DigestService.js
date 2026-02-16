@@ -1,22 +1,20 @@
-import type { Job } from '../types';
-
 const DIGEST_KEY_PREFIX = 'jobTrackerDigest_';
 
 export const DigestService = {
-    getTodayDigest: (): Job[] | null => {
+    getTodayDigest: () => {
         const today = new Date().toISOString().split('T')[0];
         const key = `${DIGEST_KEY_PREFIX}${today}`;
         const saved = localStorage.getItem(key);
         return saved ? JSON.parse(saved) : null;
     },
 
-    saveTodayDigest: (jobs: Job[]) => {
+    saveTodayDigest: (jobs) => {
         const today = new Date().toISOString().split('T')[0];
         const key = `${DIGEST_KEY_PREFIX}${today}`;
         localStorage.setItem(key, JSON.stringify(jobs));
     },
 
-    generateDigest: (jobs: Job[]): Job[] => {
+    generateDigest: (jobs) => {
         // Filter jobs with matchScore > 0
         const candidates = jobs.filter(job => (job.matchScore || 0) > 0);
 

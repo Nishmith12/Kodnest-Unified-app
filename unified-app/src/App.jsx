@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 
 // Import Sub-Apps
-import JobTrackerApp from './apps/job-tracker/App.tsx';
+import JobTrackerApp from './apps/job-tracker/App.jsx';
 import PlacementPlatformApp from './apps/placement-platform/App.jsx';
 import ResumeBuilderApp from './apps/resume-builder/App.jsx';
 

@@ -1,15 +1,6 @@
 import React from 'react';
 
-interface FilterBarProps {
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
-    sortOption: string;
-    onSortChange: (option: string) => void;
-    statusFilter: string;
-    onStatusFilterChange: (status: string) => void;
-}
-
-export const FilterBar: React.FC<FilterBarProps> = ({
+export const FilterBar = ({
     searchQuery,
     onSearchChange,
     sortOption,
@@ -71,3 +62,5 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </div>
     );
 };
+
+FilterBar.displayName = 'FilterBar';

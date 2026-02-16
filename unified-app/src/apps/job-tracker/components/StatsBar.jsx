@@ -1,15 +1,6 @@
 import React from 'react';
 
-interface StatsProps {
-    stats: {
-        totalApplied: number;
-        interviews: number;
-        offers: number;
-        responseRate: number;
-    };
-}
-
-export const StatsBar: React.FC<StatsProps> = ({ stats }) => {
+export const StatsBar = ({ stats }) => {
     const items = [
         {
             label: 'Total Applied',
@@ -65,3 +56,5 @@ export const StatsBar: React.FC<StatsProps> = ({ stats }) => {
         </div>
     );
 };
+
+StatsBar.displayName = 'StatsBar';

@@ -4,21 +4,23 @@ import { Button } from '../components/Button';
 import { useJobs } from '../context/JobContext';
 import { Link } from 'react-router-dom';
 
-const TEST_ITEMS = [
-    { id: '1', label: 'Preferences persist after refresh', desc: 'Change filters/settings, reload page, check if saved.' },
-    { id: '2', label: 'Match score calculates correctly', desc: 'Verify score updates based on keywords/role.' },
-    { id: '3', label: '"Show only matches" toggle works', desc: 'Enable toggle, ensure low matches disappear.' },
-    { id: '4', label: 'Save job persists after refresh', desc: 'Save a job, reload, check Saved page.' },
-    { id: '5', label: 'Apply opens in new tab', desc: 'Click Apply, check for new browser tab.' },
-    { id: '6', label: 'Status update persists after refresh', desc: 'Change status, reload, verify status retained.' },
-    { id: '7', label: 'Status filter works correctly', desc: 'Filter by "Applied", ensure only applied jobs show.' },
-    { id: '8', label: 'Digest generates top 10 by score', desc: 'Check Digest page for high scoring jobs.' },
-    { id: '9', label: 'Digest persists for the day', desc: 'Reload/Nav away, return to Digest, same jobs.' },
-    { id: '10', label: 'No console errors on main pages', desc: 'Open F12 Console, browse pages, check for red errors.' }
-];
 
-const TestPage: React.FC = () => {
+const TestPage = () => {
     const { testResults, updateTestResult, resetTestResults, allTestsPassed } = useJobs();
+
+    const TEST_ITEMS = [
+        { id: '1', label: 'Preferences persist after refresh', desc: 'Change filters/settings, reload page, check if saved.' },
+        { id: '2', label: 'Match score calculates correctly', desc: 'Verify score updates based on keywords/role.' },
+        { id: '3', label: '"Show only matches" toggle works', desc: 'Enable toggle, ensure low matches disappear.' },
+        { id: '4', label: 'Save job persists after refresh', desc: 'Save a job, reload, check Saved page.' },
+        { id: '5', label: 'Apply opens in new tab', desc: 'Click Apply, check for new browser tab.' },
+        { id: '6', label: 'Status update persists after refresh', desc: 'Change status, reload, verify status retained.' },
+        { id: '7', label: 'Status filter works correctly', desc: 'Filter by "Applied", ensure only applied jobs show.' },
+        { id: '8', label: 'Digest generates top 10 by score', desc: 'Check Digest page for high scoring jobs.' },
+        { id: '9', label: 'Digest persists for the day', desc: 'Reload/Nav away, return to Digest, same jobs.' },
+        { id: '10', label: 'No console errors on main pages', desc: 'Open F12 Console, browse pages, check for red errors.' }
+    ];
+
     const passedCount = Object.values(testResults).filter(Boolean).length;
     const progress = (passedCount / 10) * 100;
 

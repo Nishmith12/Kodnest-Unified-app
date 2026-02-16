@@ -3,22 +3,22 @@ import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { useJobs } from '../context/JobContext';
 
-const STEPS = [
-    { id: 1, label: 'Project Setup & Foundation' },
-    { id: 2, label: 'Authentication & Routing' },
-    { id: 3, label: 'Premium Layout & UI' },
-    { id: 4, label: 'Data Mocking & Context' },
-    { id: 5, label: 'Dashboard & Filtering' },
-    { id: 6, label: 'Saved Jobs Persistence' },
-    { id: 7, label: 'Daily Digest Engine' },
-    { id: 8, label: 'Status Tracking & Tests' }
-];
-
-const Proof: React.FC = () => {
+const Proof = () => {
     const { allTestsPassed, submissionLinks, updateSubmissionLink } = useJobs();
     const [copied, setCopied] = useState(false);
 
-    const isValidUrl = (url: string) => {
+    const STEPS = [
+        { id: 1, label: 'Project Setup & Foundation' },
+        { id: 2, label: 'Authentication & Routing' },
+        { id: 3, label: 'Premium Layout & UI' },
+        { id: 4, label: 'Data Mocking & Context' },
+        { id: 5, label: 'Dashboard & Filtering' },
+        { id: 6, label: 'Saved Jobs Persistence' },
+        { id: 7, label: 'Daily Digest Engine' },
+        { id: 8, label: 'Status Tracking & Tests' }
+    ];
+
+    const isValidUrl = (url) => {
         try {
             new URL(url);
             return true;

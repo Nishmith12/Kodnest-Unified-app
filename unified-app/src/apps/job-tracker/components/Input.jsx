@@ -1,12 +1,6 @@
 import React from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    error?: string;
-    helperText?: string;
-}
-
-export const Input: React.FC<InputProps> = ({
+export const Input = ({
     label,
     error,
     helperText,
@@ -46,3 +40,5 @@ export const Input: React.FC<InputProps> = ({
         </div>
     );
 };
+
+Input.displayName = 'Input';

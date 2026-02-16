@@ -1,7 +1,5 @@
-import type { Job, UserPreferences } from '../types';
-
 export const ScoringService = {
-    calculateMatchScore: (job: Job, prefs: UserPreferences): number => {
+    calculateMatchScore: (job, prefs) => {
         let score = 0;
 
         // +25 if any roleKeyword appears in job.title (case-insensitive)
@@ -17,28 +15,18 @@ export const ScoringService = {
         if (descMatch) score += 15;
 
         // +15 if job.location matches preferredLocations
-        // We check if job location contains any of the preferred locations (e.g. "Bangalore" in "Bangalore, Karnataka")
         const locMatch = prefs.locations.some(loc =>
             job.location.toLowerCase().includes(loc.toLowerCase())
         );
         if (locMatch) score += 15;
 
         // +10 if job.mode matches preferredMode
-        // job.type is "Remote" | "Hybrid" | "On-site"
-        // prefs.workMode is string[] e.g. ["Remote", "Hybrid"]
         const modeMatch = prefs.workMode.some(mode =>
             mode.toLowerCase() === job.type.toLowerCase()
         );
         if (modeMatch) score += 10;
 
         // +10 if job.experience matches experienceLevel
-        // exact match for simplicity as per requirement, or we could do range mapping logic
-        // Requirement says: "+10 if job.experience matches experienceLevel"
-        // job.experience is "Fresher" | "0-1" | "1-3" etc.
-        // prefs.experienceLevel is likely single select? User request said dropdown.
-        // Let's assume exact string match or simplified mapping if needed. 
-        // For now, strict equality or strict inclusion if experiencLevel became array? 
-        // Request said "experienceLevel (dropdown)", so single string.
         if (job.experience.toLowerCase() === prefs.experienceLevel.toLowerCase()) {
             score += 10;
         }

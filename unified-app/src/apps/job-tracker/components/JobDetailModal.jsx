@@ -1,16 +1,7 @@
 import React from 'react';
-import type { Job } from '../types';
 import { Button } from './Button';
 
-interface JobDetailModalProps {
-    job: Job;
-    isOpen: boolean;
-    onClose: () => void;
-    onSave: (id: string) => void;
-    isSaved: boolean;
-}
-
-export const JobDetailModal: React.FC<JobDetailModalProps> = ({ job, isOpen, onClose, onSave, isSaved }) => {
+export const JobDetailModal = ({ job, isOpen, onClose, onSave, isSaved }) => {
     if (!isOpen) return null;
 
     return (
@@ -74,3 +65,5 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({ job, isOpen, onC
         </div>
     );
 };
+
+JobDetailModal.displayName = 'JobDetailModal';

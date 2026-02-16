@@ -1,5 +1,3 @@
-import type { Job, UserPreferences } from '../types';
-
 const INDIAN_TECH_COMPANIES = [
     'TCS', 'Infosys', 'Wipro', 'Accenture', 'Capgemini', 'Cognizant',
     'IBM', 'Oracle', 'SAP', 'Dell',
@@ -33,10 +31,10 @@ const SKILLS_POOL = [
     'TypeScript', 'JavaScript', 'Spring Boot', 'Django', 'FastAPI', 'MongoDB', 'PostgreSQL'
 ];
 
-const SOURCES = ['LinkedIn', 'Naukri', 'Indeed'] as const;
+const SOURCES = ['LinkedIn', 'Naukri', 'Indeed'];
 
 export const MockDataService = {
-    generateJobs: async (count: number = 60, _preferences?: UserPreferences): Promise<Job[]> => {
+    generateJobs: async (count = 60, _preferences) => {
         // Simulate network delay
         await new Promise(resolve => setTimeout(resolve, 800));
 
@@ -75,7 +73,7 @@ Strong problem-solving skills and a willingness to learn are essential.`;
                 company: company,
                 location: location,
                 type: type,
-                experience: role.exp as any,
+                experience: role.exp,
                 salary: salary,
                 postedAt: postedDaysAgo === 0 ? 'Today' : `${postedDaysAgo} days ago`,
                 postedDaysAgo: postedDaysAgo,

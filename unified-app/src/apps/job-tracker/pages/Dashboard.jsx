@@ -5,11 +5,10 @@ import { JobCard } from '../components/JobCard';
 import { FilterBar } from '../components/FilterBar';
 import { JobDetailModal } from '../components/JobDetailModal';
 import { StatsBar } from '../components/StatsBar';
-import type { Job } from '../types';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
     const { jobs, isLoading, loadJobs, savedJobs, saveJob } = useJobs();
-    const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+    const [selectedJob, setSelectedJob] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Filter states
@@ -17,7 +16,7 @@ const Dashboard: React.FC = () => {
     const [sortOption, setSortOption] = useState('match');
     const [statusFilter, setStatusFilter] = useState('All');
 
-    const handleViewJob = (job: Job) => {
+    const handleViewJob = (job) => {
         setSelectedJob(job);
         setIsModalOpen(true);
     };
@@ -43,7 +42,7 @@ const Dashboard: React.FC = () => {
         return a.postedDaysAgo - b.postedDaysAgo;
     });
 
-    const isJobSaved = (id: string) => savedJobs.some(j => j.id === id);
+    const isJobSaved = (id) => savedJobs.some(j => j.id === id);
 
     // Stats Calculation
     const stats = {
